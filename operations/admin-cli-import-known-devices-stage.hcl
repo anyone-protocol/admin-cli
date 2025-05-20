@@ -1,7 +1,9 @@
 job "admin-cli-import-known-devices-stage" {
   datacenters = [ "ator-fin" ]
-  type = "service"
+  type = "batch"
   namespace = "live-protocol"
+
+  reschedule { attempts = 0 }
 
   group "admin-cli-import-known-devices-stage-group" {
     count = 1
@@ -14,7 +16,7 @@ job "admin-cli-import-known-devices-stage" {
 
     network { mode = "bridge" }
 
-    task "admin-cli-import-known-devices-stage-service" {
+    task "admin-cli-import-known-devices-stage-task" {
       driver = "docker"
       config {
         image = "ghcr.io/anyone-protocol/admin-cli:[[.commit_sha]]"
@@ -63,6 +65,11 @@ job "admin-cli-import-known-devices-stage" {
       resources {
         cpu    = 4096
         memory = 4096
+      }
+
+      restart {
+        attempts = 0
+        mode     = "fail"
       }
     }
   }
