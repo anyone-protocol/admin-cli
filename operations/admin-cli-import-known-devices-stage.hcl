@@ -1,7 +1,7 @@
 job "admin-cli-import-known-devices-stage" {
   datacenters = [ "ator-fin" ]
   type = "batch"
-  namespace = "live-protocol"
+  namespace = "stage-protocol"
 
   reschedule { attempts = 0 }
 
